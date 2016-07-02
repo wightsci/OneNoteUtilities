@@ -1,4 +1,5 @@
 ﻿#Some comment text
+#More comment
 try {
 $onApp = New-Object -ComObject OneNote.Application
 }
