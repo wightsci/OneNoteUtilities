@@ -74,7 +74,28 @@ Function Get-ONSections {
 $xmlSections = $xmlPageDoc.SelectNodes("//one:Section",$xmlNS)
 $xmlSections
 }
-
+Function Get-ONSection {
+<#
+.SYNOPSIS
+Gets OneNote Section
+.DESCRIPTION
+Returns OneNote XML Schema based elements representing a Section
+.PARAMETER Section
+The Section name to query. Just one.
+#>
+[CmdletBinding()]
+  param
+  (
+    [Parameter(Mandatory=$True,
+    ValueFromPipeline=$True,
+    ValueFromPipelineByPropertyName=$True,
+    HelpMessage='What Section?')]
+    [Alias('Name')]
+    [string[]]$Section
+  )
+$xmlSection = $xmlPageDoc.SelectSingleNode("//one:Section[@name=`"$($Section)`"]",$xmlNs)
+$xmlSection
+}
 Function New-ONPage {
 <#
 .SYNOPSIS
@@ -124,7 +145,7 @@ Function Get-ONNoteBook {
   .DESCRIPTION
   Returns OneNote XML Schema based element representing a specific Notebook
   .EXAMPLE
-  Get-ONNoteBook
+  Get-ONNoteBook -NoteBook 'My NoteBook'
   .PARAMETER NoteBook
   The NoteBook name to query. Just one.
 #>
