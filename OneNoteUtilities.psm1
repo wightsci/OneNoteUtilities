@@ -1,7 +1,7 @@
 ﻿#Some comment text
 #More comment
 try {
-$onApp = New-Object -ComObject OneNote.Applications
+$onApp = New-Object -ComObject OneNote.Application
 }
 catch [System.Runtime.InteropServices.COMException] {
   Write-Error "Unable to create COM Object - is OneNote installed?"
