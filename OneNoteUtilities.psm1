@@ -1,10 +1,11 @@
 ﻿#Some comment text
 #More comment
 try {
-$onApp = New-Object -ComObject OneNote.Application
+$onApp = New-Object -ComObject OneNote.Applications
 }
 catch [System.Runtime.InteropServices.COMException] {
-    "Unable to create COM Object - is OneNote installed?"
+  Write-Error "Unable to create COM Object - is OneNote installed?"
+  Break
 }
 # Set up some variables
 $xmlSections=''
