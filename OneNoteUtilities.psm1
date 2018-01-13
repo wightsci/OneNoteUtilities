@@ -236,16 +236,18 @@ Param(
 )
 Start-ONApp
 $Document.OwnerDocument.CreateNode([system.xml.xmlnodetype]::Element,"one:$Element",$schema)
-<#
-$myOE = New-ONElement -Element "OE" -Document $myPage
-$newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
-$myT = New-ONElement -Element "T" -Document $myPage
-$myT.InnerText = "Hello There!"
-$newOE.AppendChild($myT)
-$onApp.UpdatePageContent($myPage)
-#>
 }
 Function Update-ONPage {
+  <#
+.SYNOPSIS
+Updates an existing OneNote page
+.DESCRIPTION
+Updates a OneNote page using the currently in-use schema.
+.EXAMPLE
+Update-ONPage $myPage.OuterXML
+.PARAMETER PageContent
+An xml string containing the updated page content
+#>
 [CmdletBinding()]
   param
   (
