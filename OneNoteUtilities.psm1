@@ -335,6 +335,19 @@ Process {
         }
     }
 }
+Function Show-OnPage {
+  [CmdletBinding()]
+  param (
+  [Parameter(Mandatory=$True,
+  ValueFromPipeline=$True,
+  ValueFromPipelineByPropertyName=$True,
+  HelpMessage='What Page?')]
+  [Alias('Name')]
+  [string[]]$Page
+  )
+  $navPage = Get-OnPage -Page $Page
+  $onApp.NavigateTo($navPage.id,$Null)
+}
 Get-ONHierarchy
 <#
 #Get-ONNoteBooks |gm
