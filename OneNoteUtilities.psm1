@@ -1,29 +1,45 @@
-﻿#Some comment text
-#More comment
-try {
-$onApp = New-Object -ComObject OneNote.Application
-}
-catch [System.Runtime.InteropServices.COMException] {
-  Write-Error "Unable to create COM Object - is OneNote installed?"
-  Break
-}
+﻿
 # Set up some variables
+$onApp = $Null
 $xmlSections=''
 $xmlPages=''
 $pageID=''
 $xmlPage = New-Object System.Xml.XmlDocument
+$xmlNewPage = New-Object System.Xml.XmlDocument
 $xmlPageDoc = New-Object System.Xml.XmlDocument
-$xmlNs = New-Object System.Xml.XmlNamespaceManager($xmlPageDoc.NameTable)
-$onProcess = Get-Process onenote
-$onVersion = $onProcess.ProductVersion.Split(".")
-"OneNote version $($onVersion[0]) detected"
-switch ($onVersion[0]) {
-    "16" { $schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
-    "15" { $schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
-    "14" { $schema = "http://schemas.microsoft.com/office/onenote/2010/onenote" }
-    }
-$xmlNs.AddNamespace("one",$schema)
 
+Function Start-ONApp {
+[CmdletBinding()]
+param()
+if ( -not $script:onApp)  {
+  try {
+    Write-Verbose "onApp not found"
+    $script:onApp = New-Object -ComObject OneNote.Application
+    }
+    catch [System.Runtime.InteropServices.COMException] {
+      Write-Error "Unable to create COM Object - is OneNote installed?"
+      Break
+    }
+  
+    $script:xmlNs = New-Object System.Xml.XmlNamespaceManager($xmlPageDoc.NameTable)
+    $onProcess = Get-Process onenote
+    $onVersion = $onProcess.ProductVersion.Split(".")
+    Write-Verbose "OneNote version $($onVersion[0]) detected"
+    #$onApp | Get-Member | Out-Host
+    switch ($onVersion[0]) {
+        "16" { $schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
+        "15" { $schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
+        "14" { $schema = "http://schemas.microsoft.com/office/onenote/2010/onenote" }
+        }
+    $xmlNs.AddNamespace("one",$schema)
+  }
+  else {
+    Write-Verbose "onApp found"
+    $message  = $onApp.GetType()
+    Write-Verbose $message
+  }
+
+}
 Function Get-ONHierarchy {
 <#
 .SYNOPSIS
@@ -33,10 +49,24 @@ Loads the current OneNote Hierarchy for use by other functions
 .EXAMPLE
 Get-ONHierarchy
 #>
+Start-ONApp
 $onApp.getHierarchy($null,[Microsoft.Office.Interop.OneNote.HierarchyScope]::hsPages,[ref]$xmlPages)
 $xmlPageDoc.LoadXML($xmlPages)
 }
-
+Function Stop-ONApp {
+<#
+.SYNOPSIS
+Unloads the COM Object
+.DESCRIPTION
+Unloads the COM Object
+.EXAMPLE
+Unload-ONApp
+#>
+[System.Runtime.Interopservices.Marshal]::FinalReleaseComObject($onApp)
+$script:onApp = $Null
+#Remove-Variable onApp
+[GC]::Collect()
+}
 Function Get-ONNoteBooks {
 <#
   .SYNOPSIS
@@ -46,6 +76,7 @@ Function Get-ONNoteBooks {
   .EXAMPLE
   Get-ONNoteBooks
 #>
+Start-ONApp
 $xmlNoteBooks = $xmlPageDoc.SelectNodes("//one:Notebook",$xmlNs)
 $xmlNoteBooks
 }
@@ -59,6 +90,7 @@ Function Get-ONPages {
   .EXAMPLE
   Get-ONPages
 #>
+Start-ONApp
 $xmlPages = $xmlPageDoc.SelectNodes("//one:Page",$xmlNS)
 $xmlPages
 }
@@ -72,6 +104,7 @@ Function Get-ONSections {
   .EXAMPLE
   Get-ONSections
 #>
+Start-ONApp
 $xmlSections = $xmlPageDoc.SelectNodes("//one:Section",$xmlNS)
 $xmlSections
 }
@@ -94,6 +127,7 @@ The Section name to query. Just one.
     [Alias('Name')]
     [string[]]$Section
   )
+  Start-ONApp
 $xmlSection = $xmlPageDoc.SelectSingleNode("//one:Section[@name=`"$($Section)`"]",$xmlNs)
 $xmlSection
 }
@@ -131,11 +165,14 @@ System.Xml.XmlElement extended by the currently selected OneNote schema.
     [Alias('id')]
     [string[]]$SectionID
   )
+Begin {
+  Start-ONApp
+}
 Process {
 $onApp.createNewPage($SectionID,[ref]$pageID)
 $onApp.getPageContent($pageID,[ref]$xmlPage)
-$xmlPageDoc.LoadXML($xmlPage)
-$xmlPageDoc
+$xmlNewPage.LoadXML($xmlPage)
+$xmlNewPage.Page
 }
 }
 
@@ -160,6 +197,7 @@ Function Get-ONNoteBook {
     [Alias('Name')]
     [string[]]$NoteBook
   )
+  Start-ONApp
 $xmlNoteBook = $xmlPageDoc.SelectSingleNode("//one:Notebook[@name=`"$($NoteBook)`"]",$xmlNs)
 $xmlNoteBook
 }
@@ -173,17 +211,47 @@ the specified XML document's DOM using the
 currently in-use schema.
 .EXAMPLE
 New-ONElement -Element "T" -Document $XMLDoc
-.PARAMETER
-Element
-.PARAMETER
-Document
+.EXAMPLE
+$myOE = New-ONElement -Element "OE" -Document $myPage
+$newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
+$myT = New-ONElement -Element "T" -Document $myPage
+$myT.InnerText = "Hello There!"
+$newOE.AppendChild($myT)
+$onApp.UpdatePageContent($myPage)
+.PARAMETER Element
+.PARAMETER Document
 #>
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory=$true,Position=1)]$Element,
 [Parameter(Mandatory=$true,Position=2)]$Document
 )
-$Document.CreateElement("one","$Element",$schema)
+Start-ONApp
+$Document.OwnerDocument.CreateNode([system.xml.xmlnodetype]::Element,"one:$Element",$schema)
+<#
+$myOE = New-ONElement -Element "OE" -Document $myPage
+$newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
+$myT = New-ONElement -Element "T" -Document $myPage
+$myT.InnerText = "Hello There!"
+$newOE.AppendChild($myT)
+$onApp.UpdatePageContent($myPage)
+#>
+}
+Function Update-ONPage {
+[CmdletBinding()]
+  param
+  (
+    [Parameter(Mandatory=$True,
+    ValueFromPipeline=$True,
+    ValueFromPipelineByPropertyName=$True)]
+    [string[]]$PageContent
+  )
+Begin {
+  Start-ONApp
+}
+  Process {
+    $onApp.UpdatePageContent($PageContent)
+}
 }
 Function Get-ONPage {
 <#
@@ -243,6 +311,9 @@ Get-ONPages
     [Alias('Name')]
     [string[]]$Page
   )
+  Begin {
+    Start-ONApp
+  }
 Process {
     $xmlPageContent=''
     $onPage = $xmlPageDoc.SelectSingleNode("//one:Page[@name=`"$Page`" and (@isInRecycleBin!=`"true`" or not (@isInRecycleBin))]",$xmlNs)
