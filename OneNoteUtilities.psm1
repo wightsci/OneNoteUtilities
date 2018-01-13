@@ -212,19 +212,19 @@ currently in-use schema.
 .EXAMPLE
 New-ONElement -Element "T" -Document $XMLDoc
 .EXAMPLE
-$myPage = Get-ONPage -Page 'Amazon.co.uk'
-$myOE = New-ONElement -Element "OE" -Document $myPage
-$newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
-$myT = New-ONElement -Element "T" -Document $myPage
-$myT.InnerText = "Hello There xxxxx !"
-$newOE.AppendChild($myT)
+PS C:\>$myPage = Get-ONPage -Page 'Amazon.co.uk'
+PS C:\>$myOE = New-ONElement -Element "OE" -Document $myPage
+PS C:\>$newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
+PS C:\>$myT = New-ONElement -Element "T" -Document $myPage
+PS C:\>$myT.InnerText = "Hello There xxxxx !"
+PS C:\>$newOE.AppendChild($myT)
 
 #text
 -----
 Hello There xxxxx !
 Hello There xxxxx !
 
-Update-ONPage $myPage.OuterXML
+PS C:\>Update-ONPage $myPage.OuterXML
 
 .PARAMETER Element
 .PARAMETER Document
