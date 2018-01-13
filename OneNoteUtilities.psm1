@@ -7,7 +7,7 @@ $pageID=''
 $xmlPage = New-Object System.Xml.XmlDocument
 $xmlNewPage = New-Object System.Xml.XmlDocument
 $xmlPageDoc = New-Object System.Xml.XmlDocument
-
+$schema = $Null
 Function Start-ONApp {
 [CmdletBinding()]
 param()
@@ -27,9 +27,9 @@ if ( -not $script:onApp)  {
     Write-Verbose "OneNote version $($onVersion[0]) detected"
     #$onApp | Get-Member | Out-Host
     switch ($onVersion[0]) {
-        "16" { $schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
-        "15" { $schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
-        "14" { $schema = "http://schemas.microsoft.com/office/onenote/2010/onenote" }
+        "16" { $script:schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
+        "15" { $script:schema = "http://schemas.microsoft.com/office/onenote/2013/onenote" }
+        "14" { $script:schema = "http://schemas.microsoft.com/office/onenote/2010/onenote" }
         }
     $xmlNs.AddNamespace("one",$schema)
   }
@@ -212,12 +212,20 @@ currently in-use schema.
 .EXAMPLE
 New-ONElement -Element "T" -Document $XMLDoc
 .EXAMPLE
+$myPage = Get-ONPage -Page 'Amazon.co.uk'
 $myOE = New-ONElement -Element "OE" -Document $myPage
 $newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
 $myT = New-ONElement -Element "T" -Document $myPage
-$myT.InnerText = "Hello There!"
+$myT.InnerText = "Hello There xxxxx !"
 $newOE.AppendChild($myT)
-$onApp.UpdatePageContent($myPage)
+
+#text
+-----
+Hello There xxxxx !
+Hello There xxxxx !
+
+Update-ONPage $myPage.OuterXML
+
 .PARAMETER Element
 .PARAMETER Document
 #>
