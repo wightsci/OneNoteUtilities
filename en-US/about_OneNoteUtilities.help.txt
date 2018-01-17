@@ -1,0 +1,31 @@
+TOPIC
+    about_OneNoteUtilities
+
+SHORT DESCRIPTION
+    A description of OneNoteUtilities and how it can be used
+
+LONG DESCRIPTION
+    OneNoteUtilities is designed to be a bridge between the world of OneNote and the world
+    of PowerShell. Using this module you can interrogate OneNote data, create or update new
+    OneNote objects and control the OneNote User Interface
+
+EXAMPLES
+    Get-Service | Where-Object { $_.Name -like '*winrm*' } | Get-ONPage
+
+    one              : http://schemas.microsoft.com/office/onenote/2013/onenote
+    ID               : {D7B35AD3-1559-0CBB-0F63-F10786864060}{1}{E19476877483600779377920100891604390372276781}
+    name             : WinRM
+    dateTime         : 2016-06-25T14:28:56.000Z
+    lastModifiedTime : 2016-06-25T14:30:28.000Z
+    pageLevel        : 1
+    lang             : en-GB
+    QuickStyleDef    : {PageTitle, p}
+    PageSettings     : PageSettings
+    Title            : Title
+    Outline          : Outline
+
+KEYWORDS
+    OneNoteUtilities
+
+SEE ALSO
+    https://github.com/wightsci/OneNoteUtilities 
