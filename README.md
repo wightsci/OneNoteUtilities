@@ -23,6 +23,7 @@ This module provides the following functions:
 *  New-ONPage
 *  Update-ONPage
 *  Show-ONPage
+*  Add-ONElement
 
 
 
