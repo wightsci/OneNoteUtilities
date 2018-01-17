@@ -201,6 +201,39 @@ Function Get-ONNoteBook {
 $xmlNoteBook = $xmlPageDoc.SelectSingleNode("//one:Notebook[@name=`"$($NoteBook)`"]",$xmlNs)
 $xmlNoteBook
 }
+Function Add-ONElement {
+  <#
+  .SYNOPSIS
+  Adds a OneNote XML Schema element as a child of another
+  
+  .DESCRIPTION
+  Adds an already created OneNote XML Schema element as a child of another - using the XML DOM AppendChild method.
+  Note that no explicit checking of validity of the resulting XML is undertaken.
+  
+  .EXAMPLE
+  $myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'
+  $myOutline = New-ONElement -Element "Outline" -Document $myPage
+  $myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage
+  $myOE = New-ONElement -Element "OE" -Document $myPage
+  $myT = New-ONElement -Element "T" -Document $myPage
+  $myT.InnerText = "Hello There yyyxxxxxyyy !"
+  Add-ONElement -Element $myT -Parent $myOE
+  Add-ONElement -Element $myOE -Parent $myOEChildren
+  Add-ONElement -Element $myOEChildren -Parent $myOutline
+  Add-ONElement -Element $myOutLine -Parent $myPage
+  
+  
+  .NOTES
+  
+  #>
+[CmdletBinding()]
+  Param(
+  [Parameter(Mandatory=$true,Position=1)]$Element,
+  [Parameter(Mandatory=$true,Position=2)]$Parent
+  )
+  Start-ONApp
+  $Parent.AppendChild($Element)
+}
 Function New-ONElement {
 <#
 .SYNOPSIS
@@ -212,19 +245,18 @@ currently in-use schema.
 .EXAMPLE
 New-ONElement -Element "T" -Document $XMLDoc
 .EXAMPLE
-PS C:\>$myPage = Get-ONPage -Page 'Amazon.co.uk'
-PS C:\>$myOE = New-ONElement -Element "OE" -Document $myPage
-PS C:\>$newOE = $myPage.Outline.OEChildren.AppendChild($myOE)
-PS C:\>$myT = New-ONElement -Element "T" -Document $myPage
-PS C:\>$myT.InnerText = "Hello There xxxxx !"
-PS C:\>$newOE.AppendChild($myT)
+$myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'
+$myOutline = New-ONElement -Element "Outline" -Document $myPage
+$myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage
+$myOE = New-ONElement -Element "OE" -Document $myPage
+$myT = New-ONElement -Element "T" -Document $myPage
+$myT.InnerText = "Hello There yyyxxxxxyyy !"
+Add-ONElement -Element $myT -Parent $myOE
+Add-ONElement -Element $myOE -Parent $myOEChildren
+Add-ONElement -Element $myOEChildren -Parent $myOutline
+Add-ONElement -Element $myOutLine -Parent $myPage
 
-#text
------
-Hello There xxxxx !
-Hello There xxxxx !
-
-PS C:\>Update-ONPage $myPage.OuterXML
+Update-ONPage $myPage.OuterXML
 
 .PARAMETER Element
 .PARAMETER Document
