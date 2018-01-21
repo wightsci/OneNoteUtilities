@@ -380,6 +380,36 @@ Function Show-OnPage {
   $navPage = Get-OnPage -Page $Page
   $onApp.NavigateTo($navPage.id,$Null)
 }
+
+Function Publish-ONObject {
+  [CmdletBinding()]
+  param (
+  [Parameter(Mandatory=$True,
+  ValueFromPipeline=$True,
+  ValueFromPipelineByPropertyName=$True,
+  HelpMessage='Please provide a OneNote object ID')]
+  [Alias('Identity')]
+  [string[]]$Id,
+  [Parameter(Mandatory=$True,
+  HelpMessage='Please provide a valid OneNote export type')]
+  [Alias('Type')]
+  [string[]]$Format,
+  [Parameter(Mandatory=$True,
+  HelpMessage='Please provide a file path')]
+  [Alias('FilePath')]
+  [string[]]$Path
+  )
+  switch ($Format.ToLower()) {
+    "pdf" {$PublishFormat = 3;break}
+    "xps" {$PublishFormat = 4;break}
+    "doc" {$PublishFormat = 5;break}
+    default {$publishFormat = -1;break}
+  }
+  Write-Host $PublishFormat
+  if ($PublishFormat -ge 0) {
+    $onApp.Publish($Id,$Path,$PublishFormat,"")
+  }
+}
 Get-ONHierarchy
 <#
 #Get-ONNoteBooks |gm
