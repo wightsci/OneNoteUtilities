@@ -24,6 +24,7 @@ This module provides the following functions:
 *  Update-ONPage
 *  Show-ONPage
 *  Add-ONElement
+*  Publish-ONObject
 
 
 
