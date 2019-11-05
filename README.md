@@ -4,7 +4,9 @@ OneNoteUtilities PowerShell Module
 
 A PowerShell module to interact with the desktop version of Microsoft OneNote.
 
-Development of this module has re-started with the new year (2018).
+Development of this module continues following Microsoft's most recent announcement (November 2019):
+
+https://techcommunity.microsoft.com/t5/Office-365-Blog/Your-OneNote/ba-p/954922
 
 The current version is 1.0
 
