@@ -359,6 +359,7 @@ Get-ONPages
 Process {
     $xmlPageContent=''
     $onPage = $xmlPageDoc.SelectSingleNode("//one:Page[@name=`"$Page`" and (@isInRecycleBin!=`"true`" or not (@isInRecycleBin))]",$xmlNs)
+    Write-Verbose $xmlPageDoc.OuterXml
     if ($onPage) {
         $onApp.GetPageContent($onPage.id,[ref]$xmlPageContent)
         
@@ -405,7 +406,7 @@ Function Publish-ONObject {
     "doc" {$PublishFormat = 5;break}
     default {$publishFormat = -1;break}
   }
-  Write-Host $PublishFormat
+  Write-Verbose $PublishFormat
   if ($PublishFormat -ge 0) {
     $onApp.Publish($Id,$Path,$PublishFormat,"")
   }
