@@ -392,7 +392,8 @@ Function Publish-ONObject {
   [Alias('Identity')]
   [string[]]$Id,
   [Parameter(Mandatory=$True,
-  HelpMessage='Please provide a valid OneNote export type',ValidateSet="PDF","XPS","DOC")]
+  HelpMessage='Please provide a valid OneNote export type')]
+  [ValidateSet("PDF","XPS","DOC","EMF","ONEPKG","MHT","HTML")]
   [Alias('Type')]
   [string[]]$Format,
   [Parameter(Mandatory=$True,
@@ -401,10 +402,14 @@ Function Publish-ONObject {
   [string[]]$Path
   )
   switch ($Format.ToLower()) {
-    "pdf" {$PublishFormat = 3;break}
-    "xps" {$PublishFormat = 4;break}
-    "doc" {$PublishFormat = 5;break}
-    default {$publishFormat = -1;break}
+    "onepkg"  {$PublishFormat = 1;break}
+    "mht"     {$PublishFormat = 2;break}
+    "pdf"     {$PublishFormat = 3;break}
+    "xps"     {$PublishFormat = 4;break}
+    "doc"     {$PublishFormat = 5;break}
+    "emf"     {$PublishFormat = 6;break}
+    "html"    {$PublishFormat = 7;break}
+    default   {$PublishFormat = -1;break}
   }
   Write-Verbose $PublishFormat
   if ($PublishFormat -ge 0) {

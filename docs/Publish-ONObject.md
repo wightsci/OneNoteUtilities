@@ -8,7 +8,7 @@ schema: 2.0.0
 # Publish-ONObject
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Publishes a OneNote page in an external file format.
 
 ## SYNTAX
 
@@ -17,7 +17,15 @@ Publish-ONObject [-Id] <String[]> [-Format] <String[]> [-Path] <String[]> [<Comm
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Publishes a OneNote page. Available formats are:
+
+- MHTML files (.mht) - (OneNote 2013 or newer)
+- Adobe Acrobat PDF files (.pdf)
+- XML Paper Specification (XPS) files (.xps)
+- OneNote Package files (.onepkg)
+- Microsoft Word documents (.doc or .docx)
+- Microsoft Windows Enhanced Metafiles (.emf)
+- HTML files (.html)
 
 ## EXAMPLES
 
@@ -31,12 +39,13 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Format
-Please provide a valid OneNote export type
+One of the valid publishing file formats.
 
 ```yaml
 Type: String[]
 Parameter Sets: (All)
 Aliases: Type
+Accepted values: PDF, XPS, DOC
 
 Required: True
 Position: 1
@@ -46,7 +55,7 @@ Accept wildcard characters: False
 ```
 
 ### -Id
-Please provide a OneNote object ID
+The Id of the OneNote page to be published.
 
 ```yaml
 Type: String[]
@@ -61,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -Path
-Please provide a file path
+The full path of the file to be created.
 
 ```yaml
 Type: String[]
