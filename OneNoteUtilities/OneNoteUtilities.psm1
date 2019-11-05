@@ -41,82 +41,34 @@ if ( -not $script:onApp)  {
 
 }
 Function Get-ONHierarchy {
-<#
-.SYNOPSIS
-Gets the current OneNote Hierarchy
-.DESCRIPTION
-Loads the current OneNote Hierarchy for use by other functions
-.EXAMPLE
-Get-ONHierarchy
-#>
 Start-ONApp
 $onApp.getHierarchy($null,[Microsoft.Office.Interop.OneNote.HierarchyScope]::hsPages,[ref]$xmlPages)
 $xmlPageDoc.LoadXML($xmlPages)
 }
 Function Stop-ONApp {
-<#
-.SYNOPSIS
-Unloads the COM Object
-.DESCRIPTION
-Unloads the COM Object
-.EXAMPLE
-Unload-ONApp
-#>
 [System.Runtime.Interopservices.Marshal]::FinalReleaseComObject($onApp)
 $script:onApp = $Null
 #Remove-Variable onApp
 [GC]::Collect()
 }
 Function Get-ONNoteBooks {
-<#
-  .SYNOPSIS
-  Gets OneNote Notebooks
-  .DESCRIPTION
-  Returns OneNote XML Schema based elements representing Notebooks
-  .EXAMPLE
-  Get-ONNoteBooks
-#>
 Start-ONApp
 $xmlNoteBooks = $xmlPageDoc.SelectNodes("//one:Notebook",$xmlNs)
 $xmlNoteBooks
 }
 
 Function Get-ONPages {
-<#
-  .SYNOPSIS
-  Gets OneNote Pages
-  .DESCRIPTION
-  Returns OneNote XML Schema based elements representing Pages
-  .EXAMPLE
-  Get-ONPages
-#>
 Start-ONApp
 $xmlPages = $xmlPageDoc.SelectNodes("//one:Page",$xmlNS)
 $xmlPages
 }
 
 Function Get-ONSections {
-<#
-  .SYNOPSIS
-  Gets OneNote Sections
-  .DESCRIPTION
-  Returns OneNote XML Schema based elements representing Sections
-  .EXAMPLE
-  Get-ONSections
-#>
 Start-ONApp
 $xmlSections = $xmlPageDoc.SelectNodes("//one:Section",$xmlNS)
 $xmlSections
 }
 Function Get-ONSection {
-<#
-.SYNOPSIS
-Gets OneNote Section
-.DESCRIPTION
-Returns OneNote XML Schema based elements representing a Section
-.PARAMETER Section
-The Section name to query. Just one.
-#>
 [CmdletBinding()]
   param
   (
@@ -132,29 +84,6 @@ $xmlSection = $xmlPageDoc.SelectSingleNode("//one:Section[@name=`"$($Section)`"]
 $xmlSection
 }
 Function New-ONPage {
-<#
-.SYNOPSIS
-Create a new OneNote Page.
-.DESCRIPTION
-Returns a OneNote XML Schema based element representing the new page.
-.PARAMETER SectionID
-The ID of the Section in which the Page is to be created.
-.EXAMPLE
-Get-ONSections | Where-Object { $_.name -like '*unfiled*' } | New-ONPage
-
-xml           Page
----           ----
-version="1.0" Page
-
-This example uses the Get-ONSections command and standard PowerShell
-filtering to pass objects to New-ONPage via the pipeline. New-ONPage
-then returns a Page XmlElement object for each object received.
-
-.INPUTS
-Any object with an 'id' property
-.OUTPUTS
-System.Xml.XmlElement extended by the currently selected OneNote schema.
-#>
 [CmdletBinding()]
   param
   (
@@ -177,16 +106,6 @@ $xmlNewPage.Page
 }
 
 Function Get-ONNoteBook {
-<#
-  .SYNOPSIS
-  Gets a OneNote Notebook
-  .DESCRIPTION
-  Returns OneNote XML Schema based element representing a specific Notebook
-  .EXAMPLE
-  Get-ONNoteBook -NoteBook 'My NoteBook'
-  .PARAMETER NoteBook
-  The NoteBook name to query. Just one.
-#>
 [CmdletBinding()]
   param
   (
@@ -202,30 +121,6 @@ $xmlNoteBook = $xmlPageDoc.SelectSingleNode("//one:Notebook[@name=`"$($NoteBook)
 $xmlNoteBook
 }
 Function Add-ONElement {
-  <#
-  .SYNOPSIS
-  Adds a OneNote XML Schema element as a child of another
-  
-  .DESCRIPTION
-  Adds an already created OneNote XML Schema element as a child of another - using the XML DOM AppendChild method.
-  Note that no explicit checking of validity of the resulting XML is undertaken.
-  
-  .EXAMPLE
-  $myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'
-  $myOutline = New-ONElement -Element "Outline" -Document $myPage
-  $myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage
-  $myOE = New-ONElement -Element "OE" -Document $myPage
-  $myT = New-ONElement -Element "T" -Document $myPage
-  $myT.InnerText = "Hello There yyyxxxxxyyy !"
-  Add-ONElement -Element $myT -Parent $myOE
-  Add-ONElement -Element $myOE -Parent $myOEChildren
-  Add-ONElement -Element $myOEChildren -Parent $myOutline
-  Add-ONElement -Element $myOutLine -Parent $myPage
-  
-  
-  .NOTES
-  
-  #>
 [CmdletBinding()]
   Param(
   [Parameter(Mandatory=$true,Position=1)]$Element,
@@ -235,32 +130,6 @@ Function Add-ONElement {
   $Parent.AppendChild($Element)
 }
 Function New-ONElement {
-<#
-.SYNOPSIS
-Creates a OneNote XML Schema based element
-.DESCRIPTION
-Creates an element of the specified type in 
-the specified XML document's DOM using the 
-currently in-use schema.
-.EXAMPLE
-New-ONElement -Element "T" -Document $XMLDoc
-.EXAMPLE
-$myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'
-$myOutline = New-ONElement -Element "Outline" -Document $myPage
-$myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage
-$myOE = New-ONElement -Element "OE" -Document $myPage
-$myT = New-ONElement -Element "T" -Document $myPage
-$myT.InnerText = "Hello There yyyxxxxxyyy !"
-Add-ONElement -Element $myT -Parent $myOE
-Add-ONElement -Element $myOE -Parent $myOEChildren
-Add-ONElement -Element $myOEChildren -Parent $myOutline
-Add-ONElement -Element $myOutLine -Parent $myPage
-
-Update-ONPage $myPage.OuterXML
-
-.PARAMETER Element
-.PARAMETER Document
-#>
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory=$true,Position=1)]$Element,
@@ -270,16 +139,6 @@ Start-ONApp
 $Document.OwnerDocument.CreateNode([system.xml.xmlnodetype]::Element,"one:$Element",$schema)
 }
 Function Update-ONPage {
-  <#
-.SYNOPSIS
-Updates an existing OneNote page
-.DESCRIPTION
-Updates a OneNote page using the currently in-use schema.
-.EXAMPLE
-Update-ONPage $myPage.OuterXML
-.PARAMETER PageContent
-An xml string containing the updated page content
-#>
 [CmdletBinding()]
   param
   (
@@ -296,53 +155,6 @@ Begin {
 }
 }
 Function Get-ONPage {
-<#
-.SYNOPSIS
-Gets a OneNote Page.
-.DESCRIPTION
-Returns OneNote XML Schema based element representing a specific Page.
-Ignores pages in the recycle bin.
-.EXAMPLE
-Get-ONPage -Page "My Page"
-This example returns a Page XmlElement object representing the page
-with the exact name "My Page".
-.EXAMPLE
-Get-ONPages | Where-Object { $_.Name -like 'OneNote*' } | Get-ONPage
-This example uses the Get-ONPages command and standard PowerShell
-filtering to pass objects to Get-ONPage via the pipeline. Get-ONPage
-then returns a Page XmlElement object for each object received.
-.EXAMPLE
-Get-Service | Where-Object { $_.Name -like '*winrm*' } | Get-ONPage
-
-one              : http://schemas.microsoft.com/office/onenote/2013/onenote
-ID               : {D7B35AD3-1559-0CBB-0F63-F10786864060}{1}{E19476877483600779377920100891604390372276781}
-name             : WinRM
-dateTime         : 2016-06-25T14:28:56.000Z
-lastModifiedTime : 2016-06-25T14:30:28.000Z
-pageLevel        : 1
-lang             : en-GB
-QuickStyleDef    : {PageTitle, p}
-PageSettings     : PageSettings
-Title            : Title
-Outline          : Outline
-
-This example returns a Page XmlElement that whose name matches that
-of the object passed down the pipeline. 
-.INPUTS
-Any object with a 'Page' or 'Name' property.
-.OUTPUTS
-System.Xml.XmlElement extended by the currently selected OneNote schema.
-This includes the full content of the page, unlike the objects returned
-by the Get-ONPages command.
-.NOTES
-This function uses the XPath SelectSingleNode method 'under the hood'.
-This means:
-    In the event of multiple pages having the same name, only the first 
-    will be returned.
-    The page search is case-sensitive.
-.LINK
-Get-ONPages
-#>
 [CmdletBinding()]
   param
   (
