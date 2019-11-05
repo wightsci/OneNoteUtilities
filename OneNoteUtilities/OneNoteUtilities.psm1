@@ -392,7 +392,7 @@ Function Publish-ONObject {
   [Alias('Identity')]
   [string[]]$Id,
   [Parameter(Mandatory=$True,
-  HelpMessage='Please provide a valid OneNote export type')]
+  HelpMessage='Please provide a valid OneNote export type',ValidateSet="PDF","XPS","DOC")]
   [Alias('Type')]
   [string[]]$Format,
   [Parameter(Mandatory=$True,
