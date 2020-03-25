@@ -66,6 +66,25 @@ Outline          : Outline
 This example returns a Page XmlElement that whose name matches that
 of the object passed down the pipeline.
 
+### EXAMPLE 4
+```
+ Get-ONPage -id '{AB5DB915-FB77-0D89-1B94-8D316660CFCB}{1}{E1910021276453986493171911072997640903877411}'
+
+one              : http://schemas.microsoft.com/office/onenote/2013/onenote
+ID               : {AB5DB915-FB77-0D89-1B94-8D316660CFCB}{1}{E1910021276453986493171911072997640903877411}
+name             : Article list
+dateTime         : 2017-04-15T11:41:36.000Z
+lastModifiedTime : 2017-08-24T13:00:13.000Z
+pageLevel        : 1
+lang             : en-GB
+QuickStyleDef    : {PageTitle, p}
+PageSettings     : PageSettings
+Title            : Title
+Outline          : Outline
+```
+
+This example returns a page based on its ID.
+
 ## PARAMETERS
 
 ### -Id
