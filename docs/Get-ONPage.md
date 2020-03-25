@@ -12,8 +12,14 @@ Gets a OneNote Page.
 
 ## SYNTAX
 
+### Name (Default)
 ```
-Get-ONPage [-Page] <String[]> [<CommonParameters>]
+Get-ONPage -Page <String[]> [<CommonParameters>]
+```
+
+### Id
+```
+Get-ONPage -Id <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,16 +68,31 @@ of the object passed down the pipeline.
 
 ## PARAMETERS
 
+### -Id
+Page Id?
+
+```yaml
+Type: String[]
+Parameter Sets: Id
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
 ### -Page
 What Page?
 
 ```yaml
 Type: String[]
-Parameter Sets: (All)
+Parameter Sets: Name
 Aliases: Name
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False

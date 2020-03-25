@@ -45,7 +45,7 @@ One of the valid publishing file formats.
 Type: String[]
 Parameter Sets: (All)
 Aliases: Type
-Accepted values: PDF, XPS, DOC
+Accepted values: PDF, XPS, DOC, EMF, ONEPKG, MHT, HTML
 
 Required: True
 Position: 1

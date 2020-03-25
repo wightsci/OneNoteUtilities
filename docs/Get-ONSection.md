@@ -12,8 +12,14 @@ Gets OneNote Section
 
 ## SYNTAX
 
+### Name (Default)
 ```
-Get-ONSection [-Section] <String[]> [<CommonParameters>]
+Get-ONSection -Section <String[]> [<CommonParameters>]
+```
+
+### Id
+```
+Get-ONSection -Id <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,17 +36,32 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
+### -Id
+Section Id?
+
+```yaml
+Type: String[]
+Parameter Sets: Id
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
 ### -Section
 The Section name to query.
 Just one.
 
 ```yaml
 Type: String[]
-Parameter Sets: (All)
+Parameter Sets: Name
 Aliases: Name
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False

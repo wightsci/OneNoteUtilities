@@ -12,8 +12,14 @@ Gets a OneNote Notebook
 
 ## SYNTAX
 
+### Name (Default)
 ```
-Get-ONNoteBook [-NoteBook] <String[]> [<CommonParameters>]
+Get-ONNoteBook -NoteBook <String[]> [<CommonParameters>]
+```
+
+### Id
+```
+Get-ONNoteBook -Id <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,17 +34,32 @@ Get-ONNoteBook -NoteBook 'My NoteBook'
 
 ## PARAMETERS
 
+### -Id
+Notebook Id?
+
+```yaml
+Type: String[]
+Parameter Sets: Id
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
 ### -NoteBook
 The NoteBook name to query.
 Just one.
 
 ```yaml
 Type: String[]
-Parameter Sets: (All)
+Parameter Sets: Name
 Aliases: Name
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False

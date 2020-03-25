@@ -47,8 +47,8 @@ Update-ONPage $myPage.OuterXML
 
 ## PARAMETERS
 
-### -Element
-{{ Fill Element Description }}
+### -Document
+{{ Fill Document Description }}
 
 ```yaml
 Type: Object
@@ -62,8 +62,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Document
-{{ Fill Document Description }}
+### -Element
+{{ Fill Element Description }}
 
 ```yaml
 Type: Object
@@ -71,7 +71,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 3
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
