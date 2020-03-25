@@ -1,5 +1,4 @@
-﻿
-# Set up some variables
+﻿# Set up some variables
 $onApp = $Null
 $xmlSections=''
 $xmlPages=''
@@ -69,18 +68,28 @@ $xmlSections = $xmlPageDoc.SelectNodes("//one:Section",$xmlNS)
 $xmlSections
 }
 Function Get-ONSection {
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName='Name')]
   param
   (
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='What Section?')]
+    HelpMessage='Section Name?',ParameterSetName='Name')]
     [Alias('Name')]
-    [string[]]$Section
+    [string[]]$Section,
+    [Parameter(Mandatory=$True,
+    ValueFromPipeline=$True,
+    ValueFromPipelineByPropertyName=$True,
+    HelpMessage='Section Id?',ParameterSetName='Id')]
+    [string[]]$Id
   )
-  Start-ONApp
-$xmlSection = $xmlPageDoc.SelectSingleNode("//one:Section[@name=`"$($Section)`"]",$xmlNs)
+Start-ONApp
+switch ($PSCmdlet.ParameterSetName) {
+    'Name' { $xpath = "//one:Section[@name='$Section']"}
+    'Id'   { $xpath = "//one:Section[@ID='$Id']"}
+}
+Write-Verbose $PSCmdlet.ParameterSetName
+$xmlSection = $xmlPageDoc.SelectSingleNode("$xpath",$xmlNs)
 $xmlSection
 }
 Function New-ONPage {
@@ -106,18 +115,27 @@ $xmlNewPage.Page
 }
 
 Function Get-ONNoteBook {
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName='Name')]
   param
   (
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='What Notebook?')]
+    HelpMessage='Notebook Name?',ParameterSetName='Name')]
     [Alias('Name')]
-    [string[]]$NoteBook
+    [string[]]$NoteBook,
+    [Parameter(Mandatory=$True,
+    ValueFromPipeline=$True,
+    ValueFromPipelineByPropertyName=$True,
+    HelpMessage='Notebook Id?',ParameterSetName='Id')]
+    [string[]]$Id
   )
   Start-ONApp
-$xmlNoteBook = $xmlPageDoc.SelectSingleNode("//one:Notebook[@name=`"$($NoteBook)`"]",$xmlNs)
+switch ($PSCmdlet.ParameterSetName) {
+    'Name' { $xpath = "//one:Notebook[@name='$Notebook']"}
+    'Id'   { $xpath = "//one:Notebook[@ID='$Id']"}
+}
+$xmlNoteBook = $xmlPageDoc.SelectSingleNode("$xpath",$xmlNs)
 $xmlNoteBook
 }
 Function Add-ONElement {
@@ -155,23 +173,32 @@ Begin {
 }
 }
 Function Get-ONPage {
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName='Name')]
   param
   (
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='What Page?')]
+    HelpMessage='Page Name?',ParameterSetName='Name')]
     [Alias('Name')]
-    [string[]]$Page
+    [string[]]$Page,
+    [Parameter(Mandatory=$True,
+    ValueFromPipeline=$True,
+    ValueFromPipelineByPropertyName=$True,
+    HelpMessage='Page Id?',ParameterSetName='Id')]
+    [string[]]$Id
   )
   Begin {
     Start-ONApp
   }
 Process {
     $xmlPageContent=''
-    $onPage = $xmlPageDoc.SelectSingleNode("//one:Page[@name=`"$Page`" and (@isInRecycleBin!=`"true`" or not (@isInRecycleBin))]",$xmlNs)
-    Write-Verbose $xmlPageDoc.OuterXml
+    switch ($PSCmdlet.ParameterSetName) {
+      'Name' { $xpath = "//one:Page[@name='$Page'"}
+      'Id'   { $xpath = "//one:Page[@ID='$Id'"}
+    }
+    $onPage = $xmlPageDoc.SelectSingleNode("$xpath and (@isInRecycleBin!='true' or not (@isInRecycleBin))]",$xmlNs)
+    # Write-Verbose $onPage.OuterXml
     if ($onPage) {
         $onApp.GetPageContent($onPage.id,[ref]$xmlPageContent)
         
