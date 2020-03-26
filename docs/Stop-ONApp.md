@@ -23,7 +23,7 @@ Unloads the COM Object
 
 ### EXAMPLE 1
 ```
-Unload-ONApp
+Stop-ONApp
 ```
 
 ## PARAMETERS

@@ -67,7 +67,7 @@ of the object passed down the pipeline.
 
 ### EXAMPLE 4
 ```
- Get-ONPage -id '{AB5DB915-FB77-0D89-1B94-8D316660CFCB}{1}{E1910021276453986493171911072997640903877411}'
+Get-ONPage -id '{AB5DB915-FB77-0D89-1B94-8D316660CFCB}{1}{E1910021276453986493171911072997640903877411}'
 
 one              : http://schemas.microsoft.com/office/onenote/2013/onenote
 ID               : {AB5DB915-FB77-0D89-1B94-8D316660CFCB}{1}{E1910021276453986493171911072997640903877411}
@@ -120,11 +120,13 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
+
 ### System.Object
 Any object with a Page or Name property.
 
 ## OUTPUTS
-### System.Xml.XmlElement 
+
+### System.Xml.XmlElement
 Extended by the currently selected OneNote schema.
 This includes the full content of the page, unlike the objects returned
 by the Get-ONPages command.

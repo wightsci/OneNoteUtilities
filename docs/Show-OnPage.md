@@ -8,7 +8,7 @@ schema: 2.0.0
 # Show-OnPage
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Displays a page in the OneNote user interface.
 
 ## SYNTAX
 

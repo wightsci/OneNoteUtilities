@@ -40,7 +40,7 @@ Add-ONElement -Element $myOutLine -Parent $myPage
 ## PARAMETERS
 
 ### -Element
-{{ Fill Element Description }}
+The OneNote Schema element to add.
 
 ```yaml
 Type: Object

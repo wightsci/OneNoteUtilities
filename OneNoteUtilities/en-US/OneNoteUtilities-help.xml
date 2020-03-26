@@ -18,7 +18,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>The OneNote Schema element to add.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -45,7 +45,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>The OneNote Schema element to add.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -883,7 +883,7 @@ Outline          : Outline</dev:code>
       <command:verb>Show</command:verb>
       <command:noun>OnPage</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Displays a page in the OneNote user interface.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -1038,7 +1038,7 @@ Outline          : Outline</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Unload-ONApp</dev:code>
+        <dev:code>Stop-ONApp</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
