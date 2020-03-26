@@ -43,13 +43,11 @@ Get-ONPages | Where-Object { $_.Name -like 'OneNote*' } | Get-ONPage
 
 This example uses the Get-ONPages command and standard PowerShell
 filtering to pass objects to Get-ONPage via the pipeline.
-Get-ONPage
-then returns a Page XmlElement object for each object received.
+Get-ONPage then returns a Page XmlElement object for each object received.
 
 ### EXAMPLE 3
 ```
 Get-Service | Where-Object { $_.Name -like '*winrm*' } | Get-ONPage
-```
 
 one              : http://schemas.microsoft.com/office/onenote/2013/onenote
 ID               : {D7B35AD3-1559-0CBB-0F63-F10786864060}{1}{E19476877483600779377920100891604390372276781}
@@ -62,6 +60,7 @@ QuickStyleDef    : {PageTitle, p}
 PageSettings     : PageSettings
 Title            : Title
 Outline          : Outline
+```
 
 This example returns a Page XmlElement that whose name matches that
 of the object passed down the pipeline.
@@ -121,13 +120,15 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
+### System.Object
+Any object with a Page or Name property.
 
-### Any object with a 'Page' or 'Name' property.
 ## OUTPUTS
+### System.Xml.XmlElement 
+Extended by the currently selected OneNote schema.
+This includes the full content of the page, unlike the objects returned
+by the Get-ONPages command.
 
-### System.Xml.XmlElement extended by the currently selected OneNote schema.
-### This includes the full content of the page, unlike the objects returned
-### by the Get-ONPages command.
 ## NOTES
 This function uses the XPath SelectSingleNode method 'under the hood'.
 This means:
