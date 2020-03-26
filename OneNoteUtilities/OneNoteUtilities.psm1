@@ -99,7 +99,7 @@ Function New-ONPage {
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='What Section?')]
+    HelpMessage='Section ID?')]
     [Alias('id')]
     [string[]]$SectionID
   )
@@ -107,10 +107,10 @@ Begin {
   Start-ONApp
 }
 Process {
-$onApp.createNewPage($SectionID,[ref]$pageID)
-$onApp.getPageContent($pageID,[ref]$strPage)
-$xmlNewPage.LoadXML($strPage)
-$xmlNewPage.Page
+  $onApp.createNewPage($SectionID,[ref]$pageID)
+  $onApp.getPageContent($pageID,[ref]$strPage)
+  $xmlNewPage.LoadXML($strPage)
+  $xmlNewPage.Page
 }
 }
 
@@ -127,7 +127,7 @@ Function Get-ONNoteBook {
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='Notebook Id?',ParameterSetName='Id')]
+    HelpMessage='Notebook ID?',ParameterSetName='Id')]
     [string[]]$Id
   )
   Start-ONApp
@@ -185,7 +185,7 @@ Function Get-ONPage {
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='Page Id?',ParameterSetName='Id')]
+    HelpMessage='Page ID?',ParameterSetName='Id')]
     [string[]]$Id
   )
   Begin {
@@ -213,7 +213,7 @@ Function Show-OnPage {
   [Parameter(Mandatory=$True,
   ValueFromPipeline=$True,
   ValueFromPipelineByPropertyName=$True,
-  HelpMessage='What Page?')]
+  HelpMessage='Page Name?')]
   [Alias('Name')]
   [string[]]$Page
   )
