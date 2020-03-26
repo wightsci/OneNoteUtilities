@@ -108,8 +108,8 @@ Begin {
 }
 Process {
 $onApp.createNewPage($SectionID,[ref]$pageID)
-$onApp.getPageContent($pageID,[ref]$xmlPage)
-$xmlNewPage.LoadXML($xmlPage)
+$onApp.getPageContent($pageID,[ref]$strPage)
+$xmlNewPage.LoadXML($strPage)
 $xmlNewPage.Page
 }
 }
