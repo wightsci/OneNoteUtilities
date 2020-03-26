@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-ONApp
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Starts the OneNote application if it is not already running.
 
 ## SYNTAX
 
@@ -17,16 +17,17 @@ Start-ONApp [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Starts the OneNote application if it is not already running. Returns a COM object for
+further use by the module.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Start-ONApp
 ```
 
-{{ Add example description here }}
+This example starts the OneNote application.
 
 ## PARAMETERS
 
