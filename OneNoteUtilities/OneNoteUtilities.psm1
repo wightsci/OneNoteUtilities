@@ -57,19 +57,73 @@ $xmlNoteBooks
 }
 
 Function Get-ONPages {
-Start-ONApp
-$xmlPages = $xmlPageDoc.SelectNodes("//one:Page",$xmlNS)
-$xmlPages
+  [CmdletBinding(DefaultParameterSetName='All')]
+  Param(
+    [Parameter(ParameterSetName='NotebookName',Mandatory)]
+    [String]$NoteBookName,
+    [Parameter(ParameterSetName='NotebookId',Mandatory)]
+    [String]$NoteBookId,
+    [Parameter(ParameterSetName='SectionName',Mandatory)]
+    [String]$SectionName,
+    [Parameter(ParameterSetName='SectionId',Mandatory)]
+    [String]$SectionId
+  )
+  Start-ONApp
+  Write-Verbose $PSCmdlet.ParameterSetName
+  switch ($PSCmdlet.ParameterSetName) {
+  "NotebookName"  { $xpath = "//one:Notebook[@name='$NotebookName']//one:Page"}
+  "NotebookId"    { $xpath = "//one:Notebook[@ID='$NotebookId']//one:Page"}
+  "SectionName"   { $xpath = "//one:Section[@name='$SectionName']/one:Page"}
+  "SectionId"     { $xpath = "//one:Section[@ID='$SectionId']/one:Page"} 
+  "All"           { $xpath = "//one:Page" }
+  }
+  Write-Verbose $xpath
+  $xmlPages = $xmlPageDoc.SelectNodes($xpath,$xmlNS)
+  $xmlPages
+}
+
+Function Get-ONSectionGroups {
+  [CmdletBinding(DefaultParameterSetName='All')]
+  Param(
+    [Parameter(ParameterSetName='NotebookName',Mandatory)]
+    [String]$NoteBookName,
+    [Parameter(ParameterSetName='NotebookId',Mandatory)]
+    [String]$NoteBookId
+  )
+  Start-ONApp
+  Write-Verbose $PSCmdlet.ParameterSetName
+  switch ($PSCmdlet.ParameterSetName) {
+  "NotebookName"  { $xpath = "//one:Notebook[@name='$NotebookName']/one:SectionGroup[not(@isRecycleBin='true')]"}
+  "NotebookId"    { $xpath = "//one:Notebook[@ID='$NotebookId']/one:SectionGroup[not(@isRecycleBin='true')]"}
+  "All"           { $xpath = "//one:SectionGroup[not(@isRecycleBin='true')]" }
+  }
+  Write-Verbose $xpath
+  $xmlSectionGroups = $xmlPageDoc.SelectNodes($xpath,$xmlNS)
+  $xmlSectionGroups
 }
 
 Function Get-ONSections {
-Start-ONApp
-$xmlSections = $xmlPageDoc.SelectNodes("//one:Section",$xmlNS)
-$xmlSections
+  [CmdletBinding(DefaultParameterSetName='All')]
+  Param(
+    [Parameter(ParameterSetName='NotebookName',Mandatory)]
+    [String]$NoteBookName,
+    [Parameter(ParameterSetName='NotebookId',Mandatory)]
+    [String]$NoteBookId
+  )
+  Start-ONApp
+  Write-Verbose $PSCmdlet.ParameterSetName
+  switch ($PSCmdlet.ParameterSetName) {
+  "NotebookName"  { $xpath = "//one:Notebook[@name='$NotebookName']/one:Section"}
+  "NotebookId"    { $xpath = "//one:Notebook[@ID='$NotebookId']/one:Section"}
+  "All"           { $xpath = "//one:Section" }
+  }
+  Write-Verbose $xpath
+  $xmlSections = $xmlPageDoc.SelectNodes($xpath,$xmlNS)
+  $xmlSections
 }
 Function Get-ONSection {
 [CmdletBinding(DefaultParameterSetName='Name')]
-  param
+  Param
   (
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
@@ -83,18 +137,18 @@ Function Get-ONSection {
     HelpMessage='Section Id?',ParameterSetName='Id')]
     [string[]]$Id
   )
-Start-ONApp
-switch ($PSCmdlet.ParameterSetName) {
-    'Name' { $xpath = "//one:Section[@name='$Section']"}
-    'Id'   { $xpath = "//one:Section[@ID='$Id']"}
-}
-Write-Verbose $PSCmdlet.ParameterSetName
-$xmlSection = $xmlPageDoc.SelectSingleNode("$xpath",$xmlNs)
-$xmlSection
+  Start-ONApp
+  switch ($PSCmdlet.ParameterSetName) {
+      'Name' { $xpath = "//one:Section[@name='$Section']"}
+      'Id'   { $xpath = "//one:Section[@ID='$Id']"}
+  }
+  Write-Verbose $PSCmdlet.ParameterSetName
+  $xmlSection = $xmlPageDoc.SelectSingleNode("$xpath",$xmlNs)
+  $xmlSection
 }
 Function New-ONPage {
 [CmdletBinding()]
-  param
+  Param
   (
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
@@ -193,7 +247,7 @@ Function Get-ONPage {
     Start-ONApp
   }
 Process {
-    $xmlPageContent=''
+    $strPageContent=''
     switch ($PSCmdlet.ParameterSetName) {
       'Name' { $xpath = "//one:Page[@name='$Page'"}
       'Id'   { $xpath = "//one:Page[@ID='$Id'"}
@@ -201,9 +255,8 @@ Process {
     $onPage = $xmlPageDoc.SelectSingleNode("$xpath and (@isInRecycleBin!='true' or not (@isInRecycleBin))]",$xmlNs)
     # Write-Verbose $onPage.OuterXml
     if ($onPage) {
-        $onApp.GetPageContent($onPage.id,[ref]$xmlPageContent)
-        
-        $xmlPage.LoadXML($xmlPageContent)
+        $onApp.GetPageContent($onPage.id,[ref]$strPageContent)     
+        $xmlPage.LoadXML($strPageContent)
         $xmlPage.Page
         }
     }
