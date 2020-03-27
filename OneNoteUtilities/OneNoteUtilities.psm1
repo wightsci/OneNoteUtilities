@@ -1,7 +1,7 @@
 ﻿# Set up some variables
 $onApp = $Null
 $xmlSections=''
-$xmlPages=''
+$strPages=''
 $pageID=''
 $xmlPage = New-Object System.Xml.XmlDocument
 $xmlNewPage = New-Object System.Xml.XmlDocument
@@ -41,8 +41,8 @@ if ( -not $script:onApp)  {
 }
 Function Get-ONHierarchy {
 Start-ONApp
-$onApp.getHierarchy($null,[Microsoft.Office.Interop.OneNote.HierarchyScope]::hsPages,[ref]$xmlPages)
-$xmlPageDoc.LoadXML($xmlPages)
+$onApp.getHierarchy($null,[Microsoft.Office.Interop.OneNote.HierarchyScope]::hsPages,[ref]$strPages)
+$xmlPageDoc.LoadXML($strPages)
 }
 Function Stop-ONApp {
 [System.Runtime.Interopservices.Marshal]::FinalReleaseComObject($onApp)
