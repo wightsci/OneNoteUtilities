@@ -21,6 +21,7 @@ This module provides the following functions:
 *  [Get-ONPages](docs/Get-ONPages.md)
 *  [Get-ONSection](docs/Get-ONSection.md)
 *  [Get-ONSections](docs/Get-ONSections.md)
+*  [Get-ONSectionGroups](docs/Get-ONSectionGroups.md)
 *  [New-ONElement](docs/New-ONElement.md)
 *  [New-ONPage](docs/New-ONPage.md)
 *  [Update-ONPage](docs/Update-ONPage.md)

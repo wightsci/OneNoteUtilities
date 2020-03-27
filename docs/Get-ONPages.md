@@ -38,7 +38,11 @@ Get-ONPages -SectionId <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns OneNote XML Schema based elements representing Pages
+Returns OneNote XML Schema based elements representing Pages.
+By default, all Pages from all Notebooks are returned and can be
+filtered using standard cmdlets like Where-Object. As an
+alternative you can specify the names or IDs of the Notebook or
+Section hosting the Pages.
 
 ## EXAMPLES
 
@@ -50,7 +54,7 @@ Get-ONPages
 ## PARAMETERS
 
 ### -NoteBookId
-{{ Fill NoteBookId Description }}
+The ID of the Notebook hosting the pages.
 
 ```yaml
 Type: String
@@ -65,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoteBookName
-{{ Fill NoteBookName Description }}
+The name of the Notebook hosting the pages.
 
 ```yaml
 Type: String
@@ -80,7 +84,7 @@ Accept wildcard characters: False
 ```
 
 ### -SectionId
-{{ Fill SectionId Description }}
+The ID of the Section hosting the pages.
 
 ```yaml
 Type: String
@@ -95,7 +99,7 @@ Accept wildcard characters: False
 ```
 
 ### -SectionName
-{{ Fill SectionName Description }}
+The name of the Section hosting the pages.
 
 ```yaml
 Type: String
