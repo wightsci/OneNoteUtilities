@@ -105,6 +105,7 @@ Function New-ONPage {
   )
 Begin {
   Start-ONApp
+  $strPage = ''
 }
 Process {
   $onApp.createNewPage($SectionID,[ref]$pageID)
