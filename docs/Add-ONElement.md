@@ -25,8 +25,6 @@ Note that no explicit checking of validity of the resulting XML is undertaken.
 ### EXAMPLE 1
 ```
 $myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'
-```
-
 $myOutline = New-ONElement -Element "Outline" -Document $myPage
 $myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage
 $myOE = New-ONElement -Element "OE" -Document $myPage
@@ -36,6 +34,7 @@ Add-ONElement -Element $myT -Parent $myOE
 Add-ONElement -Element $myOE -Parent $myOEChildren
 Add-ONElement -Element $myOEChildren -Parent $myOutline
 Add-ONElement -Element $myOutLine -Parent $myPage
+```
 
 ## PARAMETERS
 
@@ -55,7 +54,8 @@ Accept wildcard characters: False
 ```
 
 ### -Parent
-{{ Fill Parent Description }}
+The parent object in the OneNote hierarchy to which the new element will be
+added as a child.
 
 ```yaml
 Type: Object

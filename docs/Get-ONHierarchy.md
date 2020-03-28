@@ -17,7 +17,8 @@ Get-ONHierarchy [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Loads the current OneNote Hierarchy for use by other functions
+Loads the current OneNote Hierarchy for use by other functions. Use this
+command to ensure you are working with the current XML structure.
 
 ## EXAMPLES
 

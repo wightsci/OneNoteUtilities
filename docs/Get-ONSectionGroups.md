@@ -39,6 +39,19 @@ PS C:\> Get-SectionGroups
 
 This command returns all Section Groups in all Notebooks.
 
+### Example 2
+```powershell
+PS C:\> Get-ONSectionGroups -NoteBookName 'WebNotes'
+
+name             : First Section Group
+ID               : {1F3C5AB9-BEDB-49AE-8FFE-C0EEB19817D5}{1}{B0}
+path             : https://d.docs.live.net/816f7725bef99999/WebNotes/First Section Group/
+lastModifiedTime : 2020-03-28T11:44:42.000Z
+Section          : Section
+```
+
+This command returns all Section Groups in the specified Notebook
+
 ## PARAMETERS
 
 ### -NoteBookId

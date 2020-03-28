@@ -42,13 +42,12 @@ Add-ONElement -Element $myT -Parent $myOE
 Add-ONElement -Element $myOE -Parent $myOEChildren
 Add-ONElement -Element $myOEChildren -Parent $myOutline
 Add-ONElement -Element $myOutLine -Parent $myPage
-
 Update-ONPage $myPage.OuterXML
 
 ## PARAMETERS
 
 ### -Document
-{{ Fill Document Description }}
+The XML Document object (OneNote Page) to host the new element.
 
 ```yaml
 Type: Object
@@ -63,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+The tag name of the new element.
 
 ```yaml
 Type: Object

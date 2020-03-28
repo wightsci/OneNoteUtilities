@@ -30,7 +30,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Parent</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Parent Description }}</maml:para>
+            <maml:para>The parent object in the OneNote hierarchy to which the new element will be added as a child.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -57,7 +57,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Parent</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Parent Description }}</maml:para>
+          <maml:para>The parent object in the OneNote hierarchy to which the new element will be added as a child.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -77,9 +77,18 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>$myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'</dev:code>
+        <dev:code>$myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'
+$myOutline = New-ONElement -Element "Outline" -Document $myPage
+$myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage
+$myOE = New-ONElement -Element "OE" -Document $myPage
+$myT = New-ONElement -Element "T" -Document $myPage
+$myT.InnerText = "Hello There yyyxxxxxyyy !"
+Add-ONElement -Element $myT -Parent $myOE
+Add-ONElement -Element $myOE -Parent $myOEChildren
+Add-ONElement -Element $myOEChildren -Parent $myOutline
+Add-ONElement -Element $myOutLine -Parent $myPage</dev:code>
         <dev:remarks>
-          <maml:para>$myOutline = New-ONElement -Element "Outline" -Document $myPage $myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage $myOE = New-ONElement -Element "OE" -Document $myPage $myT = New-ONElement -Element "T" -Document $myPage $myT.InnerText = "Hello There yyyxxxxxyyy !" Add-ONElement -Element $myT -Parent $myOE Add-ONElement -Element $myOE -Parent $myOEChildren Add-ONElement -Element $myOEChildren -Parent $myOutline Add-ONElement -Element $myOutLine -Parent $myPage</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -95,7 +104,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Loads the current OneNote Hierarchy for use by other functions</maml:para>
+      <maml:para>Loads the current OneNote Hierarchy for use by other functions. Use this command to ensure you are working with the current XML structure.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -127,11 +136,11 @@
       <command:verb>Get</command:verb>
       <command:noun>ONNoteBook</command:noun>
       <maml:description>
-        <maml:para>Gets a OneNote Notebook</maml:para>
+        <maml:para>Gets one or more OneNote Notebooks.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns OneNote XML Schema based element representing a specific Notebook</maml:para>
+      <maml:para>Returns one or more OneNote XML Schema based elements representing specific Notebooks.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -411,14 +420,120 @@ Outline          : Outline</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns OneNote XML Schema based elements representing Pages</maml:para>
+      <maml:para>Returns OneNote XML Schema based elements representing Pages. By default, all Pages from all Notebooks are returned and can be filtered using standard cmdlets like Where-Object. As an alternative you can specify the names or IDs of the Notebook or Section hosting the Pages.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-ONPages</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoteBookId</maml:name>
+          <maml:Description>
+            <maml:para>The ID of the Notebook hosting the pages.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-ONPages</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoteBookName</maml:name>
+          <maml:Description>
+            <maml:para>The name of the Notebook hosting the pages.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-ONPages</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>SectionId</maml:name>
+          <maml:Description>
+            <maml:para>The ID of the Section hosting the pages.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-ONPages</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>SectionName</maml:name>
+          <maml:Description>
+            <maml:para>The name of the Section hosting the pages.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoteBookId</maml:name>
+        <maml:Description>
+          <maml:para>The ID of the Notebook hosting the pages.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoteBookName</maml:name>
+        <maml:Description>
+          <maml:para>The name of the Notebook hosting the pages.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>SectionId</maml:name>
+        <maml:Description>
+          <maml:para>The ID of the Section hosting the pages.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>SectionName</maml:name>
+        <maml:Description>
+          <maml:para>The name of the Section hosting the pages.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
@@ -443,11 +558,11 @@ Outline          : Outline</dev:code>
       <command:verb>Get</command:verb>
       <command:noun>ONSection</command:noun>
       <maml:description>
-        <maml:para>Gets OneNote Section</maml:para>
+        <maml:para>Gets one or more OneNote Sections</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns OneNote XML Schema based elements representing a Section</maml:para>
+      <maml:para>Returns OneNote XML Schema based elements representing one or more Sections.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -517,9 +632,157 @@ Outline          : Outline</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Get-ONSection -Section 'Teacher Notes','Administration Notes'
+
+name             : Teacher Notes
+ID               : {1DE00420-3700-037A-3F54-97489F626533}{20}{B0}
+path             : https://d.docs.live.net/816f7725bef99999/Documents/Real World Samples/Teacher Notes.one
+lastModifiedTime : 2020-03-25T19:31:50.000Z
+color            : #9595AA
+isUnread         : true
+Page             : {7th Grade Math, 1.10 - The Coordinate Plane, 1.2 - Variables and Expressions, Problem-Solving...}
+
+name             : Administration Notes
+ID               : {BACECC72-6805-0656-22E9-319A25A5247A}{22}{B0}
+path             : https://d.docs.live.net/816f7725bef99999/Documents/Real World Samples/Administration Notes.one
+lastModifiedTime : 2019-01-30T11:08:41.000Z
+color            : #B7C997
+Page             : {Staff and Faculty Notes examples, Calendars, Schedule and Academic Calendar, Fall Sports...}</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>This command returns the two Sections specified by name.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-ONSection -Id '{70863F49-36D4-0CB0-1CBD-AF8C35E05883}{29}{B0}'
+
+name             : Lesson Plans
+ID               : {70863F49-36D4-0CB0-1CBD-AF8C35E05883}{29}{B0}
+path             : https://d.docs.live.net/816f7725bef99999/Documents/Real World Samples/Lesson Plans.one
+lastModifiedTime : 2020-03-25T19:31:49.000Z
+color            : #D5A4BB
+Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System in China - Handout #8, Trace the Graph...}</dev:code>
+        <dev:remarks>
+          <maml:para>This command returns the Section specified by the Id.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-ONSectionGroups</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>ONSectionGroups</command:noun>
+      <maml:description>
+        <maml:para>Gets OneNote Section Groups.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Returns OneNote XML Schema based elements representing Section Groups.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-ONSectionGroups</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoteBookId</maml:name>
+          <maml:Description>
+            <maml:para>The ID of the Notebook containing the Section Groups.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-ONSectionGroups</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoteBookName</maml:name>
+          <maml:Description>
+            <maml:para>The name of the Notebook containg the Section Groups.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoteBookId</maml:name>
+        <maml:Description>
+          <maml:para>The ID of the Notebook containing the Section Groups.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoteBookName</maml:name>
+        <maml:Description>
+          <maml:para>The name of the Notebook containg the Section Groups.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SectionGroups</dev:code>
+        <dev:remarks>
+          <maml:para>This command returns all Section Groups in all Notebooks.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-ONSectionGroups -NoteBookName 'WebNotes'
+
+name             : First Section Group
+ID               : {1F3C5AB9-BEDB-49AE-8FFE-C0EEB19817D5}{1}{B0}
+path             : https://d.docs.live.net/816f7725bef99999/WebNotes/First Section Group/
+lastModifiedTime : 2020-03-28T11:44:42.000Z
+Section          : Section</dev:code>
+        <dev:remarks>
+          <maml:para>This command returns all Section Groups in the specified Notebook</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -535,14 +798,66 @@ Outline          : Outline</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns OneNote XML Schema based elements representing Sections</maml:para>
+      <maml:para>Returns OneNote XML Schema based elements representing Sections. By default, all Sections from all Notebooks are returned and can be filtered using standard cmdlets like Where-Object. As an alternative you can specify the names or IDs of the Notebook hosting the Sections.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-ONSections</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoteBookId</maml:name>
+          <maml:Description>
+            <maml:para>The ID of the Notebook hosting the Sections.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-ONSections</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoteBookName</maml:name>
+          <maml:Description>
+            <maml:para>The name of the Notebook hosting the Sections.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoteBookId</maml:name>
+        <maml:Description>
+          <maml:para>The ID of the Notebook hosting the Sections.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoteBookName</maml:name>
+        <maml:Description>
+          <maml:para>The name of the Notebook hosting the Sections.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes />
     <command:returnValues />
     <maml:alertSet>
@@ -555,7 +870,29 @@ Outline          : Outline</dev:code>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-ONSections</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>This command returns all Sections in all Notebooks</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-ONSections -NoteBookName 'Real World Samples'
+
+name             : Student pages
+ID               : {C19F5E9B-C37B-0C25-0FC7-55FCE4E36F7B}{26}{B0}
+path             : https://d.docs.live.net/816f7725bef00a5f/Documents/Real World Samples/Student pages.one
+lastModifiedTime : 2019-07-16T15:03:46.000Z
+color            : #8AA8E4
+Page             : {Cincinnati Country Day School samples, Graphing/Color Coding , Forces, Gravity, and Newton's Laws of M6otion, La Religión...}
+
+name             : Lesson Plans
+ID               : {70863F49-36D4-0CB0-1CBD-AF8C35E05883}{29}{B0}
+path             : https://d.docs.live.net/816f7725bef00a5f/Documents/Real World Samples/Lesson Plans.one
+lastModifiedTime : 2020-03-25T19:31:49.000Z
+color            : #D5A4BB
+Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System in China - Handout #8, Trace the Graph...}
+...</dev:code>
+        <dev:remarks>
+          <maml:para>This command returns all of the sections from the named Notebook.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -579,7 +916,7 @@ Outline          : Outline</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>The tag name of the new element.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -591,7 +928,7 @@ Outline          : Outline</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Document</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Document Description }}</maml:para>
+            <maml:para>The XML Document object (OneNote Page) to host the new element.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -606,7 +943,7 @@ Outline          : Outline</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Document</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Document Description }}</maml:para>
+          <maml:para>The XML Document object (OneNote Page) to host the new element.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -618,7 +955,7 @@ Outline          : Outline</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>The tag name of the new element.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -647,8 +984,7 @@ Outline          : Outline</dev:code>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>$myPage = Get-ONPage -Page 'Amazon.co.uk - Stuart'</dev:code>
         <dev:remarks>
-          <maml:para>$myOutline = New-ONElement -Element "Outline" -Document $myPage $myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage $myOE = New-ONElement -Element "OE" -Document $myPage $myT = New-ONElement -Element "T" -Document $myPage $myT.InnerText = "Hello There yyyxxxxxyyy !" Add-ONElement -Element $myT -Parent $myOE Add-ONElement -Element $myOE -Parent $myOEChildren Add-ONElement -Element $myOEChildren -Parent $myOutline Add-ONElement -Element $myOutLine -Parent $myPage</maml:para>
-          <maml:para>Update-ONPage $myPage.OuterXML</maml:para>
+          <maml:para>$myOutline = New-ONElement -Element "Outline" -Document $myPage $myOEChildren  = New-ONElement -Element "OEChildren" -Document $myPage $myOE = New-ONElement -Element "OE" -Document $myPage $myT = New-ONElement -Element "T" -Document $myPage $myT.InnerText = "Hello There yyyxxxxxyyy !" Add-ONElement -Element $myT -Parent $myOE Add-ONElement -Element $myOE -Parent $myOEChildren Add-ONElement -Element $myOEChildren -Parent $myOutline Add-ONElement -Element $myOutLine -Parent $myPage Update-ONPage $myPage.OuterXML</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -869,9 +1205,9 @@ Outline          : Outline</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Publish-ONObject -Id '{C19F5E9B-C37B-0C25-0FC7-55FCE4E36F7B}{26}{E18372038253285132566191417462735909894706105}' -Format PDF -Path C:\Users\User\Desktop\Chapter1.pdf</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>This command creates a PDF version of the specified page at the specified location.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -887,37 +1223,98 @@ Outline          : Outline</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Displays a page in the OneNote user interface.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Show-OnPage</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="Name">
-          <maml:name>Page</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+          <maml:name>Id</maml:name>
           <maml:Description>
-            <maml:para>What Page?</maml:para>
+            <maml:para>Page Id?</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NewWindow</maml:name>
+          <maml:Description>
+            <maml:para>Displays the Page in a new OneNote window, instead of re-using an existing window if one exists.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Show-OnPage</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Page Name?</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NewWindow</maml:name>
+          <maml:Description>
+            <maml:para>Displays the Page in a new OneNote window, instead of re-using an existing window if one exists.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="Name">
-        <maml:name>Page</maml:name>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+        <maml:name>Id</maml:name>
         <maml:Description>
-          <maml:para>What Page?</maml:para>
+          <maml:para>Page Id?</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+        <maml:name>Name</maml:name>
+        <maml:Description>
+          <maml:para>Page Name?</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NewWindow</maml:name>
+        <maml:Description>
+          <maml:para>Displays the Page in a new OneNote window, instead of re-using an existing window if one exists.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -948,9 +1345,9 @@ Outline          : Outline</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Show-ONPage -Id '{C19F5E9B-C37B-0C25-0FC7-55FCE4E36F7B}{26}{E18372038253285132566191417462735909894706105}'</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>This command displays the specified page in OneNote.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

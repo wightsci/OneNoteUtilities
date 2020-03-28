@@ -137,13 +137,21 @@ Function Get-ONSection {
     [string[]]$Id
   )
   Start-ONApp
-  switch ($PSCmdlet.ParameterSetName) {
-      'Name' { $xpath = "//one:Section[@name='$Section']"}
-      'Id'   { $xpath = "//one:Section[@ID='$Id']"}
-  }
+  $xpathList = @()
   Write-Verbose $PSCmdlet.ParameterSetName
-  $xmlSection = $xmlPageDoc.SelectSingleNode("$xpath",$xmlNs)
-  $xmlSection
+  switch ($PSCmdlet.ParameterSetName) {
+    'Name' { 
+      foreach ($s in $Section ) { $xpathList += "//one:Section[@name='$s']" }
+    }
+    'Id'   { 
+      foreach ($i in $Id) { $xpathList += "//one:Section[@ID='$i']" }
+    }
+  }
+  foreach ($xpath in $xpathList) {
+    Write-Verbose $PSCmdlet.ParameterSetName
+    $xmlSection = $xmlPageDoc.SelectSingleNode("$xpath",$xmlNs)
+    $xmlSection
+  }
 }
 Function New-ONPage {
 [CmdletBinding()]
@@ -224,6 +232,7 @@ Function Update-ONPage {
   }
   Process {
     $onApp.UpdatePageContent($PageContent)
+    Get-ONHierarchy
   }
 }
 Function Get-ONPage {
@@ -269,17 +278,36 @@ Function Get-ONPage {
   }
 }
 Function Show-OnPage {
-  [CmdletBinding()]
+  [CmdletBinding(DefaultParameterSetName='Name')]
   Param (
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True,
-    HelpMessage='Page Name?')]
-    [Alias('Name')]
-    [string[]]$Page
+    HelpMessage='Page Name?',
+    Position=0,
+    ParameterSetName='Name')]
+    [string]$Name,
+    [Parameter(Mandatory=$True,
+    ValueFromPipeline=$True,
+    ValueFromPipelineByPropertyName=$True,
+    HelpMessage='Page Id?',
+    ParameterSetName='Id')]
+    [string]$Id,
+    [Parameter(ParameterSetName='Name')]
+    [Parameter(ParameterSetName='Id')]
+    [switch]$NewWindow
   )
-  $navPage = Get-OnPage -Page $Page
-  $onApp.NavigateTo($navPage.id,$Null)
+  switch ($PSCmdlet.ParameterSetName) {
+    "Name" { $navPage = Get-ONPage -Page $Name} 
+    "Id"   { $NavPage = Get-ONPage -Id $Id }
+  }
+  if ($NewWindow.IsPresent) {
+    $WindowFlag = -1
+  }
+  else {
+    $WindowFlag = 0
+  }
+  $onApp.NavigateTo($navPage.id,$Null,$WindowFlag)
 }
 
 Function Publish-ONObject {

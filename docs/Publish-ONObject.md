@@ -31,10 +31,10 @@ Publishes a OneNote page. Available formats are:
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Publish-ONObject -Id '{C19F5E9B-C37B-0C25-0FC7-55FCE4E36F7B}{26}{E18372038253285132566191417462735909894706105}' -Format PDF -Path C:\Users\User\Desktop\Chapter1.pdf
 ```
 
-{{ Add example description here }}
+This command creates a PDF version of the specified page at the specified location.
 
 ## PARAMETERS
 

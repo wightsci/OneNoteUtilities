@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-ONNoteBook
 
 ## SYNOPSIS
-Gets a OneNote Notebook
+Gets one or more OneNote Notebooks.
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Get-ONNoteBook -Id <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns OneNote XML Schema based element representing a specific Notebook
+Returns one or more OneNote XML Schema based elements representing specific Notebooks.
 
 ## EXAMPLES
 
