@@ -26,6 +26,7 @@ This module provides the following functions:
 *  [New-ONPage](docs/New-ONPage.md)
 *  [Update-ONPage](docs/Update-ONPage.md)
 *  [Show-ONPage](docs/Show-ONPage.md)
+*  [Show-ONGUI](docs/Show-ONGUI.md)
 *  [Add-ONElement](docs/Add-ONElement.md)
 *  [Publish-ONObject](docs/Publish-ONObject.md)
 

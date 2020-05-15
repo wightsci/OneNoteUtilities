@@ -148,7 +148,7 @@ Add-ONElement -Element $myOutLine -Parent $myPage</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
           <maml:name>Id</maml:name>
           <maml:Description>
-            <maml:para>Notebook Id?</maml:para>
+            <maml:para>The Notebook ID to query.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -163,7 +163,7 @@ Add-ONElement -Element $myOutLine -Parent $myPage</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Name">
           <maml:name>NoteBook</maml:name>
           <maml:Description>
-            <maml:para>The NoteBook name to query. Just one.</maml:para>
+            <maml:para>The Notebook name to query.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -178,7 +178,7 @@ Add-ONElement -Element $myOutLine -Parent $myPage</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
         <maml:name>Id</maml:name>
         <maml:Description>
-          <maml:para>Notebook Id?</maml:para>
+          <maml:para>The Notebook ID to query.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -190,7 +190,7 @@ Add-ONElement -Element $myOutLine -Parent $myPage</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Name">
         <maml:name>NoteBook</maml:name>
         <maml:Description>
-          <maml:para>The NoteBook name to query. Just one.</maml:para>
+          <maml:para>The Notebook name to query.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -1208,6 +1208,60 @@ Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System
         <dev:code>PS C:\&gt; Publish-ONObject -Id '{C19F5E9B-C37B-0C25-0FC7-55FCE4E36F7B}{26}{E18372038253285132566191417462735909894706105}' -Format PDF -Path C:\Users\User\Desktop\Chapter1.pdf</dev:code>
         <dev:remarks>
           <maml:para>This command creates a PDF version of the specified page at the specified location.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Show-ONGUI</command:name>
+      <command:verb>Show</command:verb>
+      <command:noun>ONGUI</command:noun>
+      <maml:description>
+        <maml:para>Show-ONGUI displays the OneNote Graphical User Interface focused on the default notebook.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Show-ONGUI displays the OneNote Graphical User Interface focused on the default notebook. If the user interface is already visible then this command has no effect.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Show-ONGUI</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>If you initiate your OneNote session in such a way that the user interface is  not displayed, this is the best way to make the OneNote window visible.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Show-ONGUI</dev:code>
+        <dev:remarks>
+          <maml:para>This example displays the OneNote GUI.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

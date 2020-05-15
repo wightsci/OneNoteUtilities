@@ -310,6 +310,13 @@ Function Show-OnPage {
   $onApp.NavigateTo($navPage.id,$Null,$WindowFlag)
 }
 
+Function Show-ONGUI {
+[CmdletBinding()]
+Param()
+Start-ONApp
+$onApp.NavigateTo($Null)
+}
+
 Function Publish-ONObject {
   [CmdletBinding()]
   Param (

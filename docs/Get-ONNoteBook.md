@@ -35,7 +35,7 @@ Get-ONNoteBook -NoteBook 'My NoteBook'
 ## PARAMETERS
 
 ### -Id
-Notebook Id?
+The Notebook ID to query.
 
 ```yaml
 Type: String[]
@@ -50,8 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoteBook
-The NoteBook name to query.
-Just one.
+The Notebook name to query.
 
 ```yaml
 Type: String[]
