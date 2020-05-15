@@ -13,13 +13,17 @@ Function Start-ONApp {
   if ( -not $script:onApp)  {
     try {
       Write-Verbose "onApp not found"
-      $script:onApp = New-Object -ComObject OneNote.Application
+      $interOp = Get-Item $env:WinDir\assembly\GAC_MSIL\Microsoft.Office.Interop.OneNote\15*\*
+      Write-Verbose -Message "Interop Assembly found at: $($interOp.FullName)"
+      Add-Type -LiteralPath $interOp.FullName
+      # $script:onApp = New-Object -ComObject OneNote.Application
+      $script:onApp =  New-Object Microsoft.Office.Interop.OneNote.ApplicationClass
     }
     catch [System.Runtime.InteropServices.COMException] {
       Write-Error "Unable to create COM Object - is OneNote installed?"
       Break
     }
-    
+
     $script:xmlNs = New-Object System.Xml.XmlNamespaceManager($xmlPageDoc.NameTable)
     $onProcess = Get-Process onenote
     $onVersion = $onProcess.ProductVersion.Split(".")
