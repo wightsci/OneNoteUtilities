@@ -229,12 +229,17 @@ Function Update-ONPage {
     [Parameter(Mandatory=$True,
     ValueFromPipeline=$True,
     ValueFromPipelineByPropertyName=$True)]
-    [string[]]$PageContent
+    $PageContent
   )
   Begin {
     Start-ONApp
   }
   Process {
+    Write-Verbose $PageContent.GetType().Name
+    if ($PageContent.GetType().Name -eq 'XmlElement' ) {
+      $PageContent = $PageContent.OuterXml
+      Write-Verbose $PageContent
+    }
     $onApp.UpdatePageContent($PageContent)
     Get-ONHierarchy
   }
