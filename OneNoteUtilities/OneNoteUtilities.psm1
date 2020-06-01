@@ -42,6 +42,11 @@ Function Start-ONApp {
       Write-Verbose $message
   }
 }
+
+Function Get-ONApp {
+  Start-ONApp
+  $ONApp
+}
 Function Get-ONHierarchy {
   Start-ONApp
   $onApp.getHierarchy($null,[Microsoft.Office.Interop.OneNote.HierarchyScope]::hsPages,[ref]$strPages)
