@@ -13,7 +13,7 @@ Updates an existing OneNote page
 ## SYNTAX
 
 ```
-Update-ONPage [-PageContent] <String[]> [<CommonParameters>]
+Update-ONPage [-PageContent] <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,7 +32,7 @@ Update-ONPage $myPage.OuterXML
 An xml string containing the updated page content
 
 ```yaml
-Type: String[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 

@@ -171,7 +171,9 @@ Function New-ONPage {
     ValueFromPipelineByPropertyName=$True,
     HelpMessage='Section ID?')]
     [Alias('id')]
-    [string[]]$SectionID
+    [string[]]$SectionID,
+    [Alias('name')]
+    [string]$Title
   )
   Begin {
     Start-ONApp
@@ -181,6 +183,9 @@ Function New-ONPage {
     $onApp.createNewPage($SectionID,[ref]$pageID)
     $onApp.getPageContent($pageID,[ref]$strPage)
     $xmlNewPage.LoadXML($strPage)
+    if ($Title) {
+      $xmlNewPage.Page.Title.OE.T.InnerText = $Title
+    }
     $xmlNewPage.Page
   }
 }

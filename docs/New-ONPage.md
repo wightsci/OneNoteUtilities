@@ -13,7 +13,7 @@ Create a new OneNote Page.
 ## SYNTAX
 
 ```
-New-ONPage [-SectionID] <String[]> [<CommonParameters>]
+New-ONPage [-SectionID] <String[]> [-Title <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,6 +49,21 @@ Required: True
 Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -Title
+The title of the new Page.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: name
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
