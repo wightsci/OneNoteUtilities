@@ -1085,9 +1085,12 @@ Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get-ONSections | Where-Object { $_.name -like '*unfiled*' } | New-ONPage</dev:code>
+        <dev:code>Get-ONSections | Where-Object { $_.name -like '*unfiled*' } | New-ONPage
+
+xml           Page
+---           ----
+version="1.0" Page</dev:code>
         <dev:remarks>
-          <maml:para>xml           Page ---           ---- version="1.0" Page</maml:para>
           <maml:para>This example uses the Get-ONSections command and standard PowerShell filtering to pass objects to New-ONPage via the pipeline. New-ONPage then returns a Page XmlElement object for each object received.</maml:para>
         </dev:remarks>
       </command:example>
@@ -1527,11 +1530,11 @@ Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System
       <command:verb>Update</command:verb>
       <command:noun>ONPage</command:noun>
       <maml:description>
-        <maml:para>Updates an existing OneNote page</maml:para>
+        <maml:para>Updates an existing OneNote page.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Updates a OneNote page using the currently in-use schema.</maml:para>
+      <maml:para>Updates a OneNote page using the currently in-use schema. The cmdlet automatically checks if the object passed to the cmdlet is an XmlElement. If so, the OuterXML property is used.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1539,7 +1542,7 @@ Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
           <maml:name>PageContent</maml:name>
           <maml:Description>
-            <maml:para>An xml string containing the updated page content</maml:para>
+            <maml:para>An xml string containing the updated page content, or an XxmlElement object containing a OneNote page.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -1554,7 +1557,7 @@ Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
         <maml:name>PageContent</maml:name>
         <maml:Description>
-          <maml:para>An xml string containing the updated page content</maml:para>
+          <maml:para>An xml string containing the updated page content, or an XxmlElement object containing a OneNote page.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -1576,7 +1579,22 @@ Page             : {3rd Grade Math, Egyptian numbers - Handout #2, Number System
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Update-ONPage $myPage.OuterXML</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>In this example the OuterXML property of a OneNote XML page object is passed to the Update-ONPage cmdlet.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Update-ONPage $myPage</dev:code>
+        <dev:remarks>
+          <maml:para>In this example a OneNote XML page object is passed to the Update-ONPage cmdlet. The cmdlet automatically extracts the OuterXML property.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>$myPageXML = Get-ONPage -Page 'MyPage' | Select-Object  OuterXML
+Update-ONPage $myPage</dev:code>
+        <dev:remarks>
+          <maml:para>In this example a OneNote XML page's OuterXML property is passed to the Update-ONPage cmdlet.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

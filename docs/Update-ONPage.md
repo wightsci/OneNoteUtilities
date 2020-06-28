@@ -51,7 +51,7 @@ In this example a OneNote XML page's OuterXML property is passed to the Update-O
 ## PARAMETERS
 
 ### -PageContent
-An xml string containing the updated page content
+An xml string containing the updated page content, or an XxmlElement object containing a OneNote page.
 
 ```yaml
 Type: Object
