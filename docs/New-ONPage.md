@@ -24,11 +24,11 @@ Returns a OneNote XML Schema based element representing the new page.
 ### EXAMPLE 1
 ```
 Get-ONSections | Where-Object { $_.name -like '*unfiled*' } | New-ONPage
-```
 
 xml           Page
 ---           ----
 version="1.0" Page
+```
 
 This example uses the Get-ONSections command and standard PowerShell
 filtering to pass objects to New-ONPage via the pipeline.

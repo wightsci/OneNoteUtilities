@@ -8,7 +8,7 @@ schema: 2.0.0
 # Update-ONPage
 
 ## SYNOPSIS
-Updates an existing OneNote page
+Updates an existing OneNote page.
 
 ## SYNTAX
 
@@ -18,6 +18,8 @@ Update-ONPage [-PageContent] <Object> [<CommonParameters>]
 
 ## DESCRIPTION
 Updates a OneNote page using the currently in-use schema.
+The cmdlet automatically checks if the object passed to the cmdlet
+is an XmlElement. If so, the OuterXML property is used.
 
 ## EXAMPLES
 
@@ -25,6 +27,26 @@ Updates a OneNote page using the currently in-use schema.
 ```
 Update-ONPage $myPage.OuterXML
 ```
+
+In this example the OuterXML property of a OneNote XML page object is
+passed to the Update-ONPage cmdlet.
+
+### EXAMPLE 2
+```
+Update-ONPage $myPage
+```
+
+In this example a OneNote XML page object is passed to the Update-ONPage cmdlet.
+The cmdlet automatically extracts the OuterXML property.
+
+### EXAMPLE 3
+```
+$myPageXML = Get-ONPage -Page 'MyPage' | Select-Object  OuterXML
+Update-ONPage $myPage
+```
+
+In this example a OneNote XML page's OuterXML property is passed to the Update-ONPage cmdlet.
+
 
 ## PARAMETERS
 
