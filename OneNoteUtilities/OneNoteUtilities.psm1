@@ -232,6 +232,15 @@ Function New-ONElement {
   Start-ONApp
   $Document.OwnerDocument.CreateNode([system.xml.xmlnodetype]::Element,"one:$Element",$schema)
 }
+Function New-ONCData {
+  [CmdletBinding()]
+    Param(
+      [Parameter(Mandatory=$true,Position=1)]$CData,
+      [Parameter(Mandatory=$true,Position=2)]$Document
+    )
+    Start-ONApp
+    $Document.OwnerDocument.CreateNode([system.xml.xmlnodetype]::CDATA,$CData,$schema)
+}
 Function Update-ONPage {
 [CmdletBinding()]
   Param
